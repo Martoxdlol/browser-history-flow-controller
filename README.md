@@ -59,6 +59,6 @@ window.addEventListener('replace', function(event){
 import BrowserHistoryFlowController from 'browser-history-flow-controller'
 
 //Or
-const BrowserHistoryFlowController = require('browser-history-flow-controller')
+const BrowserHistoryFlowController = require('browser-history-flow-controller').default
 
 ```

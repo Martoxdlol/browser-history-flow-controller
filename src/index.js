@@ -120,7 +120,7 @@ class BrowserHistoryFlowController{
 
 }
 
-module.export = BrowserHistoryFlowController
+export default BrowserHistoryFlowController
 
 if(typeof window == 'object'){
   window.BrowserHistoryFlowController = BrowserHistoryFlowController
