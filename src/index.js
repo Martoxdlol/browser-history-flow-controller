@@ -123,7 +123,10 @@ class BrowserHistoryFlowController{
   }
 
   set url(url){
+    //Replace url
     this.originalHistory.replaceState({pos:1}, '', url)
+    //Update saved location
+    this.lastLocation = {...location}
   }
 }
 
