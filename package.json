@@ -2,7 +2,7 @@
   "name": "browser-history-flow-controller",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/history-plus.js",
+  "main": "dist/browser-history-flow-controller.js",
   "scripts": {
     "install": "echo Browser History Flow Controller",
     "build-dev": "webpack --config webpack.dev.config.js",
