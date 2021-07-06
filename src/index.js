@@ -66,7 +66,7 @@ class BrowserHistoryFlowController{
     //wait back event finish
     await this.waitEventTrigger()
     //set correct url
-    this.originalHistory.pushState({pos:1},'',href)
+    this.originalHistory.pushState({pos:1}, '', href)
     //Keeps track of forwardButtonEnabled
     this.forwardButtonEnabled = false
     //
@@ -90,7 +90,7 @@ class BrowserHistoryFlowController{
     //Change url and stay on block 1
     this.originalHistory.replaceState({pos:1}, title, url)
     //Create event
-    const customEventData = {lastLocation:this.lastLocation, location}
+    const customEventData = { lastLocation:copyLocation(this.lastLocation), location: copyLocation(location) }
     //Update last location
     this.lastLocation = {...location}
     //Launch event
