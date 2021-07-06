@@ -118,6 +118,13 @@ class BrowserHistoryFlowController{
     this.replaceState(null, null, url)
   }
 
+  get url(){
+    return location.href
+  }
+
+  set url(url){
+    this.originalHistory.replaceState({pos:1}, '', url)
+  }
 }
 
 export default BrowserHistoryFlowController
