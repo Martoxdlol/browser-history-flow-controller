@@ -53,3 +53,12 @@ window.addEventListener('replace', function(event){
   console.log(event.lastURL, event.lastURL)
 })
 ```
+
+```javascript
+//Also you can do
+import BrowserHistoryFlowController from 'browser-history-flow-controller'
+
+//Or
+const BrowserHistoryFlowController = require('browser-history-flow-controller')
+
+```
