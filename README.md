@@ -22,18 +22,28 @@ var options = {
 
 var historyController = new BrowserHistoryFlowController(window.history, options)
 
+//triggers event 'navigate'
 historyController.navigate('/otherpage')
 
+//triggers event 'replace'
 historyController.replace('/newpageurl')
 
+//triggers event 'backward'
 historyController.back()
 
+//triggers event 'forward' only if forward button is enabled
 historyController.forward()
 
+//doesn't trigger any event
+historyController.url = 'new url'
+
+//Disable (=>) go forward button
 historyController.disableForwardButton()
 
+//Enable (=>) go forward button
 historyController.enableForwardButton()
 
+//Events are triggered globally
 
 window.addEventListener('backward', function(event){
 
