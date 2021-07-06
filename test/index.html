@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browser History Flow Controller TEST</title>
-    <link rel="stylesheet" href="app.css">
     <style media="screen">
       *{
         font-family: 'Helvetica';
@@ -40,7 +39,7 @@
       <hr>
       <section>
         <input type="text" name="" value="" id="navigate-url">
-        <button onclick="historyController.replace(document.getElementById('navigate-url').value)">Push/Navigate</button>
+        <button onclick="historyController.push(document.getElementById('navigate-url').value)">Push/Navigate</button>
       </section>
       <hr>
       <section>
@@ -55,7 +54,7 @@
       document.getElementById('title').innerText = 'Ready'
 
       function getUrl(loc){
-        return loc.pathname + loc.search + loc.hash
+        return decodeURIComponent(loc.pathname + loc.search + loc.hash)
       }
 
       function urlDiff(event){
