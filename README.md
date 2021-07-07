@@ -45,15 +45,15 @@ historyController.enableForwardButton()
 
 //Events are triggered globally
 
-window.addEventListener('backward', function(event){
+historyController.addEventListener('backward', function(event){
 
 })
 
-window.addEventListener('forward', function(event){
+historyController.addEventListener('forward', function(event){
 
 })
 
-window.addEventListener('navigate', function(event){
+historyController.addEventListener('navigate', function(event){
   console.log(event.lastLocation, event.location)
   console.log(event.lastURL, event.lastURL)
   console.log('Is hash change:', event.isHashChange)
@@ -65,7 +65,7 @@ window.addEventListener('navigate', function(event){
 
 })
 
-window.addEventListener('replace', function(event){
+historyController.addEventListener('replace', function(event){
   console.log(event.lastLocation, event.location)
   console.log(event.lastURL, event.lastURL)
 })
