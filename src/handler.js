@@ -1,4 +1,4 @@
-import { HistoryControllerEvent, launchEvent } from './events'
+import { HistoryControllerEvent } from './events'
 import { copyLocation } from './util'
 
 function createPromise(){
@@ -18,7 +18,7 @@ export default function(history){
     //User triggered event
     const newPos = history.originalHistory.state && history.originalHistory.state.pos
     if(!history.ignoreEvent && newPos != 1){
-      const customEventData = {lastLocation: copyLocation(history.lastLocation), location: copyLocation(history.lastLocation)}
+      const customEventData = {lastLocation: copyLocation(history.lastLocation), location: copyLocation(location)}
 
       //Push state / navigate event / hash change
       if(!history.originalHistory.state || history.originalHistory.state.pos == undefined || history.originalHistory.state.pos == null){
@@ -45,7 +45,7 @@ export default function(history){
         customEventData.isHashChange = true
 
         //Launch event
-        launchEvent('navigate', customEventData)
+        history.launchEvent('navigate', customEventData)
         //set correct url
         history.originalHistory.replaceState(history.originalHistory.state, '', href)
         //If new url, should disable forward
@@ -61,7 +61,7 @@ export default function(history){
         //Wait back event finish
         await waitEventPromise
         //Launch event
-        launchEvent('forward', customEventData)
+        history.launchEvent('forward', customEventData)
       }else
       //Backward event
       if(history.originalHistory.state.pos == 0){
@@ -72,7 +72,7 @@ export default function(history){
         //Enable forward button
         if(history.options.forwardButtonAutoEnable) await history.enableForwardButton()
         //Launch event
-        launchEvent('backward', customEventData)
+        history.launchEvent('backward', customEventData)
       }
 
       //Save new location

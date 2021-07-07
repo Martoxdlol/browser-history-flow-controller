@@ -1,6 +1,5 @@
-class HistoryControllerEvent extends Event{
-  constructor(name, {lastLocation, location, setUrl, cancel, isHashChange, triggeredManually}){
-    super(name)
+class HistoryControllerEvent{
+  constructor({lastLocation, location, setUrl, cancel, isHashChange, triggeredManually}){
     this.lastLocation = lastLocation
     this.location = location
     this._cancel = cancel
@@ -44,9 +43,4 @@ class HistoryControllerEvent extends Event{
   }
 }
 
-function launchEvent(name, data){
-  const event = new HistoryControllerEvent(name, data)
-  window.dispatchEvent(event)
-}
-
-export { HistoryControllerEvent, launchEvent }
+export { HistoryControllerEvent }

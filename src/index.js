@@ -1,6 +1,7 @@
 import handleEvent from './handler'
-import { HistoryControllerEvent, launchEvent } from './events'
+import { HistoryControllerEvent } from './events'
 import { copyLocation } from './util'
+import makeEmitter from './emitter'
 const DEFAULT_OPTIONS = {
   forwardButtonAutoEnable: true,
   forwardButtonAutoDisable: true,
@@ -29,6 +30,9 @@ class BrowserHistoryFlowController{
 
     //handles popstate event
     this.waitEventTrigger = handleEvent(this)
+
+    //add event emitter and add methods
+    makeEmitter(this)
   }
 
   initHistory(){
@@ -83,7 +87,7 @@ class BrowserHistoryFlowController{
     //Update last location
     this.lastLocation = {...location}
     //Launch event
-    launchEvent('navigate', customEventData)
+    this.launchEvent('navigate', customEventData)
   }
 
   async replaceState(data, title, url){
@@ -94,7 +98,7 @@ class BrowserHistoryFlowController{
     //Update last location
     this.lastLocation = {...location}
     //Launch event
-    launchEvent('replace', customEventData)
+    this.launchEvent('replace', customEventData)
   }
 
   forward(){
