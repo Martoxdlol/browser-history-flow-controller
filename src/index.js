@@ -79,7 +79,7 @@ class BrowserHistoryFlowController{
     //Disables forward
     if(this.options.forwardButtonAutoDisable) await this.disableForwardButton()
     //Create event
-    const customEventData = {lastLocation:this.lastLocation, location}
+    const customEventData = {lastLocation:this.lastLocation, location:copyLocation(location), triggeredManually:true}
     //Update last location
     this.lastLocation = {...location}
     //Launch event

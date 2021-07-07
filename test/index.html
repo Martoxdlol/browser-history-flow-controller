@@ -77,6 +77,9 @@
         var txt = 'Detected navigate' + urlDiff(event)
         document.getElementById('title').innerText = txt
         console.log(txt)
+        console.log('Is hash change:', event.isHashChange)
+        //event.cancel()
+        //event.setUrl('processed url')
       })
 
       window.addEventListener('replace', function(event){

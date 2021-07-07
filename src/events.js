@@ -1,8 +1,30 @@
 class HistoryControllerEvent extends Event{
-  constructor(name, {lastLocation, location}){
+  constructor(name, {lastLocation, location, setUrl, cancel, isHashChange, triggeredManually}){
     super(name)
     this.lastLocation = lastLocation
     this.location = location
+    this._cancel = cancel
+    this._setUrl = setUrl
+    this.cancelled = false
+    this.isHashChange = !!isHashChange
+    this.triggeredManually = !!triggeredManually
+  }
+
+  cancel(){
+    if(this._cancel) {
+      this._cancel()
+      this.cancelled = true
+      return true
+    }
+    return false
+  }
+
+  setUrl(url){
+    if(this._setUrl) {
+      this._setUrl(url)
+      return true
+    }
+    return false
   }
 
   get URL(){

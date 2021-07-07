@@ -56,6 +56,13 @@ window.addEventListener('forward', function(event){
 window.addEventListener('navigate', function(event){
   console.log(event.lastLocation, event.location)
   console.log(event.lastURL, event.lastURL)
+  console.log('Is hash change:', event.isHashChange)
+
+  if(!event.triggeredManually){
+    event.cancel() //url won't change
+    event.setUrl(differentUrl) //Replace url
+  }
+
 })
 
 window.addEventListener('replace', function(event){

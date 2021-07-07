@@ -23,13 +23,29 @@ export default function(history){
       //Push state / navigate event / hash change
       if(!history.originalHistory.state || history.originalHistory.state.pos == undefined || history.originalHistory.state.pos == null){
         //new pushed url
-        const href = location.href
+        let href = location.href
         //Prevent handler from doing strange stuff
         history.ignoreEvent++
         //return to pos 1 from pos undefined ==> 2
         history.originalHistory.back()
         //wait back event finish
         await waitEventPromise
+
+        //Add event options
+        //cancel: keeps original url
+        customEventData.cancel = () => {
+          href = history.lastLocation.href
+        }
+        //setUrl: set new change url
+        customEventData.setUrl = url => {
+          href = url
+        }
+
+        //Actually the only way this event is trigerred by popstate is by a hashchange
+        customEventData.isHashChange = true
+
+        //Launch event
+        launchEvent('navigate', customEventData)
         //set correct url
         history.originalHistory.replaceState(history.originalHistory.state, '', href)
         //If new url, should disable forward
@@ -38,8 +54,6 @@ export default function(history){
         history.ignoreEvent--
         //The event new location is different on navigate event and only on navigate event
         customEventData.location = copyLocation(location)
-        //Launch event
-        launchEvent('navigate', customEventData)
       }else
       //Forward event
       if(history.originalHistory.state.pos == 2){
