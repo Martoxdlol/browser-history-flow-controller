@@ -11,30 +11,30 @@ function createPromise(){
   }
 }
 
-export default function(history){
+export default function handleEvent(){
   let { promise:waitEventPromise, resolver:waitEventPromiseResovler } = createPromise()
 
   window.addEventListener('popstate', async event => {
     //User triggered event
-    const newPos = history.originalHistory.state && history.originalHistory.state.pos
-    if(!history.ignoreEvent && newPos != 1){
-      const customEventData = {lastLocation: copyLocation(history.lastLocation), location: copyLocation(location)}
+    const newPos = this.originalHistory.state && this.originalHistory.state.pos
+    if(!this.ignoreEvent && newPos != 1){
+      const customEventData = {lastLocation: copyLocation(this.lastLocation), location: copyLocation(location)}
 
       //Push state / navigate event / hash change
-      if(!history.originalHistory.state || history.originalHistory.state.pos == undefined || history.originalHistory.state.pos == null){
+      if(!this.originalHistory.state || this.originalHistory.state.pos == undefined || this.originalHistory.state.pos == null){
         //new pushed url
         let href = location.href
         //Prevent handler from doing strange stuff
-        history.ignoreEvent++
+        this.ignoreEvent++
         //return to pos 1 from pos undefined ==> 2
-        history.originalHistory.back()
+        this.originalHistory.back()
         //wait back event finish
         await waitEventPromise
 
         //Add event options
         //cancel: keeps original url
         customEventData.cancel = () => {
-          href = history.lastLocation.href
+          href = this.lastLocation.href
         }
         //setUrl: set new change url
         customEventData.setUrl = url => {
@@ -45,38 +45,38 @@ export default function(history){
         customEventData.isHashChange = true
 
         //Launch event
-        history.launchEvent('navigate', customEventData)
+        this.launchEvent('navigate', customEventData)
         //set correct url
-        history.originalHistory.replaceState(history.originalHistory.state, '', href)
+        this.originalHistory.replaceState(this.originalHistory.state, '', href)
         //If new url, should disable forward
-        if(history.options.forwardButtonAutoDisable) await history.disableForwardButton()
+        if(this.options.forwardButtonAutoDisable) await this.disableForwardButton()
         //end prevent handler from doing strange stuff
-        history.ignoreEvent--
+        this.ignoreEvent--
         //The event new location is different on navigate event and only on navigate event
         customEventData.location = copyLocation(location)
       }else
       //Forward event
-      if(history.originalHistory.state.pos == 2){
-        history.originalHistory.back()
+      if(this.originalHistory.state.pos == 2){
+        this.originalHistory.back()
         //Wait back event finish
         await waitEventPromise
         //Launch event
-        history.launchEvent('forward', customEventData)
+        this.launchEvent('forward', customEventData)
       }else
       //Backward event
-      if(history.originalHistory.state.pos == 0){
+      if(this.originalHistory.state.pos == 0){
         //Use last known location, don't change url
-        const href = history.lastLocation.href
-        //history.originalHistory.pushState ( back state )
-        history.originalHistory.pushState({pos:1}, '', href)
+        const href = this.lastLocation.href
+        //this.originalHistory.pushState ( back state )
+        this.originalHistory.pushState({pos:1}, '', href)
         //Enable forward button
-        if(history.options.forwardButtonAutoEnable) await history.enableForwardButton()
+        if(this.options.forwardButtonAutoEnable) await this.enableForwardButton()
         //Launch event
-        history.launchEvent('backward', customEventData)
+        this.launchEvent('backward', customEventData)
       }
 
       //Save new location
-      history.lastLocation = copyLocation(location)
+      this.lastLocation = copyLocation(location)
     }
 
     waitEventPromiseResovler(event)

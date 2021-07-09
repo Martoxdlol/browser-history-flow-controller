@@ -29,7 +29,7 @@ class BrowserHistoryFlowController{
     this.initHistory()
 
     //handles popstate event
-    this.waitEventTrigger = handleEvent(this)
+    this.waitEventTrigger = handleEvent.bind(this)()
 
     //add event emitter and add methods
     makeEmitter(this)
