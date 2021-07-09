@@ -69,10 +69,13 @@ export default function handleEvent(){
         const href = this.lastLocation.href
         //this.originalHistory.pushState ( back state )
         this.originalHistory.pushState({pos:1}, '', href)
-        //Enable forward button
-        if(this.options.forwardButtonAutoEnable) await this.enableForwardButton()
+        //Event can be cancelled (doesn't do much)
+        let cancelled = false
+        customEventData.cancel = () => cancelled = true
         //Launch event
         this.launchEvent('backward', customEventData)
+        //Enable forward button
+        if(this.options.forwardButtonAutoEnable && !cancelled) await this.enableForwardButton()
       }
 
       //Save new location
