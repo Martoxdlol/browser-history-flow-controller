@@ -46,6 +46,9 @@
         <input type="text" name="" value="" id="replace-url">
         <button onclick="historyController.replace(document.getElementById('replace-url').value)">Replace</button>
       </section>
+      <section>
+        <button onclick="historyController.exit()"> Exit </button>
+      </section>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <script src="browser-history-flow-controller.js" charset="utf-8"></script>
     <script type="text/javascript">
@@ -86,6 +89,10 @@
         var txt = 'Detected replace' + urlDiff(event)
         document.getElementById('title').innerText = txt
         console.log(txt)
+      })
+
+      historyController.addEventListener('exit', function(event){
+        if(!confirm('U sure?')) event.cancel()
       })
     </script>
   </body>

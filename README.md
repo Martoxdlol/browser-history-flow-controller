@@ -46,7 +46,9 @@ historyController.enableForwardButton()
 //Events are triggered globally
 
 historyController.addEventListener('backward', function(event){
-
+  if(something){
+    event.cancel() //won't enable forward button
+  }
 })
 
 historyController.addEventListener('forward', function(event){
@@ -69,6 +71,11 @@ historyController.addEventListener('replace', function(event){
   console.log(event.lastLocation, event.location)
   console.log(event.lastURL, event.lastURL)
 })
+
+historyController.addEventListener('exit', function(event){
+  if(!confirm('U sure?')) event.cancel()
+})
+
 ```
 
 ```javascript

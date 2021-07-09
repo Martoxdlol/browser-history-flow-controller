@@ -122,6 +122,21 @@ class BrowserHistoryFlowController{
     this.replaceState(null, null, url)
   }
 
+  //Exits page going back
+  async exit(){
+    let cancelled = false
+    //Ask user if it's sure using event
+    const cancel = () => cancelled = true
+    this.launchEvent('exit', {cancel})
+    if(!cancelled){
+      this.ignoreEvent++
+      //Exit the page
+      this.originalHistory.back()
+      await this.waitEventTrigger()
+      this.originalHistory.back()
+    }
+  }
+
   get url(){
     return location.href
   }
