@@ -63,9 +63,9 @@ class BrowserHistoryFlowController{
     this.ignoreEvent--
   }
 
-  async disableForwardButton(){
+  async _disableForwardButton(){
     //new pushed url
-    const href = location.href
+    const href = this.url
     //Prevent handler from doing strange stuff
     this.ignoreEvent++
     //return to pos 1 from pos undefined ==> 2
@@ -78,6 +78,14 @@ class BrowserHistoryFlowController{
     this.forwardButtonEnabled = false
     //
     this.ignoreEvent--
+  }
+
+  async disableForwardButton(){
+    if(this.ignoreEvent){
+      this._disableForward = true
+    }else{
+      await this._disableForwardButton()
+    }
   }
 
   async pushState(data, title, url){
@@ -141,7 +149,8 @@ class BrowserHistoryFlowController{
   }
 
   get url(){
-    return new URL(this._nextUrl, location.href)
+    if(this._nextUrl) return new URL(this._nextUrl, location.href)
+    else return new URL(location.href)
   }
 
   set url(url){

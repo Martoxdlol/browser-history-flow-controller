@@ -22,10 +22,10 @@ export default function handleEvent() {
 
       //Push state / navigate event / hash change
       if (!this.originalHistory.state || this.originalHistory.state.pos == undefined || this.originalHistory.state.pos == null) {
-        //new pushed url
-        this.url = location.href
         //Prevent handler from doing strange stuff
         this.ignoreEvent++
+        //new pushed url
+        this.url = location.href
         //return to pos 1 from pos undefined ==> 2
         this.originalHistory.back()
         //wait back event finish
@@ -48,40 +48,42 @@ export default function handleEvent() {
         this.ignoreEvent--
         //The event new location is different on navigate event and only on navigate event
         customEventData.location = copyLocation(location)
-      } else
-        //Forward event
-        if (this.originalHistory.state.pos == 2) {
-          this.originalHistory.back()
-          //Wait back event finish
-          await waitEventTrigger()
-          //Launch event
-          this.launchEvent('forward', customEventData)
-        } else
-          //Backward event
-          if (this.originalHistory.state.pos == 0) {
-            //Use last known location, don't change url
-            const href = this.lastLocation.href
-            //this.originalHistory.pushState ( back state )
-            this.originalHistory.pushState({ pos: 1 }, '', href)
-            //Event can be cancelled (doesn't do much)
-            let cancelled = false
-            customEventData.cancel = () => cancelled = true
-            //Launch event
-            this.launchEvent('backward', customEventData)
-            //Enable forward button
-            if (this.options.forwardButtonAutoEnable && !cancelled) await this.enableForwardButton()
-          }
-
-      if (this._nextUrl) {
-        //set correct url
-        this.originalHistory.replaceState(this.originalHistory.state, '', href)
-        //Reset value
-        this._nextUrl = null
       }
-
-
+      //Forward event
+      else if (this.originalHistory.state.pos == 2) {
+        this.ignoreEvent++
+        this.originalHistory.back()
+        //Wait back event finish
+        await waitEventTrigger()
+        //Launch event
+        this.launchEvent('forward', customEventData)
+        this.ignoreEvent--
+      }
+      //Backward event
+      else if (this.originalHistory.state.pos == 0) {
+        //Use last known location, don't change url
+        const href = this.lastLocation.href
+        //this.originalHistory.pushState ( back state )
+        this.originalHistory.pushState({ pos: 1 }, '', href)
+        //Event can be cancelled (doesn't do much)
+        let cancelled = false
+        customEventData.cancel = () => cancelled = true
+        //Launch event
+        this.launchEvent('backward', customEventData)
+        //Enable forward button
+        if (this.options.forwardButtonAutoEnable && !cancelled) await this.enableForwardButton()
+      }
+      //set correct url
+      this.originalHistory.replaceState(this.originalHistory.state, '', this.url)
+      //Reset value
+      this._nextUrl = null
       //Save new location
       this.lastLocation = copyLocation(location)
+
+      if(this._disableForward){
+        await this._disableForwardButton()
+        this._disableForward = false
+      }
     }
 
     waitEventPromiseResovler(event)
