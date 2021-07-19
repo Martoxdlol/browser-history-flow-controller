@@ -68,6 +68,12 @@
         var txt = '<- Detected back' + urlDiff(event)
         document.getElementById('title').innerText = txt
         console.log(txt)
+        /* if (something){
+          event.setUrl('some replacement url')
+          event.url = 'some replacement url'
+          historyController.url = 'some replacement url'
+        }
+        */
       })
 
       historyController.addEventListener('forward', function(event){

@@ -31,6 +31,9 @@ class BrowserHistoryFlowController{
     //handles popstate event
     this.waitEventTrigger = handleEvent.bind(this)()
 
+    //Used to replace url when triggered event
+    this._nextUrl = null
+
     //add event emitter and add methods
     makeEmitter(this)
   }
@@ -138,14 +141,18 @@ class BrowserHistoryFlowController{
   }
 
   get url(){
-    return location.href
+    return new URL(this._nextUrl, location.href)
   }
 
   set url(url){
-    //Replace url
-    this.originalHistory.replaceState({pos:1}, '', url)
-    //Update saved location
-    this.lastLocation = {...location}
+    if(this.ignoreEvent){
+      this._nextUrl = url
+    }else{
+      //Replace url
+      this.originalHistory.replaceState(this.originalHistory.state, '', url)
+      //Update saved location
+      this.lastLocation = {...location}
+    }
   }
 }
 
