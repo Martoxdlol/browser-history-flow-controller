@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser History Flow Controller TEST</title>
+    <style media="screen">
+      *{
+        font-family: 'Helvetica';
+      }
+      h2{
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main></main>
+      <h1 id="title">---</h1>
+      <section>
+        <h2>Common back and forward actions</h2>
+        <button onclick="history.back()"> <- back</button>
+        <button onclick="history.forward()"> forward -> </button>
+      </section>
+      <hr>
+      <section>
+        <h2>Hash navigation</h2>
+        <a href="#link1">#link1</a>
+        <a href="#link2">#link2</a>
+        <h2>Custom internal navigation</h2>
+        <a href="link3" onclick="event.preventDefault();historyController.pushState(null,null,'link3')">link3</a>
+        <a href="link4" onclick="event.preventDefault();historyController.pushState(null,null,'link4')">link4</a>
+      </section>
+      <hr>
+      <section>
+        <h2>Back and forward buttons</h2>
+        <button onclick="historyController.disableForwardButton()"> Disable forward </button>
+        <button onclick="historyController.enableForwardButton()"> Enable forward </button>
+      </section>
+      <hr>
+      <section>
+        <input type="text" name="" value="" id="navigate-url">
+        <button onclick="historyController.push(document.getElementById('navigate-url').value)">Push/Navigate</button>
+      </section>
+      <hr>
+      <section>
+        <input type="text" name="" value="" id="replace-url">
+        <button onclick="historyController.replace(document.getElementById('replace-url').value)">Replace</button>
+      </section>
+      <section>
+        <button onclick="historyController.exit()"> Exit </button>
+      </section>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <script src="browser-history-flow-controller.js" charset="utf-8"></script>
+    <script src="history.js"></script>
+    <script type="text/javascript">
+      document.getElementById('title').innerText = 'Ready'
+    </script>
+  </body>
+</html>
