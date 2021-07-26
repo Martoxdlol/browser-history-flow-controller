@@ -8,6 +8,9 @@ class EventEmitter{
   addEventListener(name, handler){
     if(!this.eventHandlers[name]) this.eventHandlers[name] = new Set()
     this.eventHandlers[name].add(handler)
+    return () => {
+      this.removeEventListener(name, handler)
+    }
   }
 
   removeEventListener(name, handler){
@@ -17,7 +20,8 @@ class EventEmitter{
 
   emit(name, event){
     if(!this.eventHandlers[name]) this.eventHandlers[name] = new Set()
-    for(const cb of this.eventHandlers[name]){
+    const handlersList = [...this.eventHandlers[name]]
+    for(const cb of handlersList.reverse()){
       let stop = false
       event.stopPropagation = () => stop = true 
       cb.call(this, event)
