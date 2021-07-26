@@ -51,55 +51,9 @@
       </section>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <script src="browser-history-flow-controller.js" charset="utf-8"></script>
+    <script src="history.js"></script>
     <script type="text/javascript">
-      var historyController = new BrowserHistoryFlowController(history)
-
       document.getElementById('title').innerText = 'Ready'
-
-      function getUrl(loc){
-        return decodeURIComponent(loc.pathname + loc.search + loc.hash)
-      }
-
-      function urlDiff(event){
-        return " (from: " + getUrl(event.lastLocation) + ", to: " + getUrl(event.location) + ")"
-      }
-
-      historyController.addEventListener('backward', function(event){
-        var txt = '<- Detected back' + urlDiff(event)
-        document.getElementById('title').innerText = txt
-        console.log(txt)
-        /* if (something){
-          event.setUrl('some replacement url')
-          event.url = 'some replacement url'
-          historyController.url = 'some replacement url'
-        }
-        */
-      })
-
-      historyController.addEventListener('forward', function(event){
-        var txt = 'Detected forward -> ' + urlDiff(event)
-        document.getElementById('title').innerText = txt
-        console.log(txt)
-      })
-
-      historyController.addEventListener('navigate', function(event){
-        var txt = 'Detected navigate' + urlDiff(event)
-        document.getElementById('title').innerText = txt
-        console.log(txt)
-        console.log('Is hash change:', event.isHashChange)
-        //event.cancel()
-        //event.setUrl('processed url')
-      })
-
-      historyController.addEventListener('replace', function(event){
-        var txt = 'Detected replace' + urlDiff(event)
-        document.getElementById('title').innerText = txt
-        console.log(txt)
-      })
-
-      historyController.addEventListener('exit', function(event){
-        if(!confirm('U sure?')) event.cancel()
-      })
     </script>
   </body>
 </html>

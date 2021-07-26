@@ -1,9 +1,9 @@
 class HistoryControllerEvent{
-  constructor({lastLocation, location, setUrl, cancel, isHashChange, triggeredManually, _exit}){
+  constructor({lastLocation, location, setUrl, cancel, isHashChange, triggeredManually, _exit, history}){
     this.lastLocation = lastLocation
     this.location = location
     this._cancel = cancel
-    this._setUrl = setUrl
+    this.history = history
     this.cancelled = false
     this.isHashChange = !!isHashChange
     this.triggeredManually = !!triggeredManually
@@ -20,11 +20,11 @@ class HistoryControllerEvent{
   }
 
   setUrl(url){
-    if(this._setUrl) {
-      this._setUrl(url)
-      return true
-    }
-    return false
+    this.history.url = url
+  }
+
+  set url(url){
+    this.setUrl(url)
   }
 
   get URL(){
