@@ -1,6 +1,6 @@
 {
   "name": "browser-history-flow-controller",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
   "main": "dist/browser-history-flow-controller.js",
   "scripts": {
