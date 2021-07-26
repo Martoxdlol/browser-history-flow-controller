@@ -15,10 +15,13 @@ class EventEmitter{
     this.eventHandlers[name].delete(handler)
   }
 
-  emit(name, ...args){
+  emit(name, event){
     if(!this.eventHandlers[name]) this.eventHandlers[name] = new Set()
     for(const cb of this.eventHandlers[name]){
-      cb.apply(this, args)
+      let stop = false
+      event.stopPropagation = () => stop = true 
+      cb.call(this, event)
+      if(stop) break
     }
   }
 
