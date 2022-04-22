@@ -1,8 +1,9 @@
 Browser History Flow Controller
 =================
 
-Full control of back and forward keys on browser
+# Package is deprecated, please use [nav-keys](https://www.npmjs.com/package/nav-keys)
 
+Full control of back and forward keys on browser
 
 ### Browser
 ```html
